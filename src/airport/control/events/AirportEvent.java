@@ -1,4 +1,4 @@
-package misc.events;
+package airport.control.events;
 
 public abstract class AirportEvent {//TODO possibly add functions for all events
     private double frequency;

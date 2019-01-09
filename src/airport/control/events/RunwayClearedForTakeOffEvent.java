@@ -1,4 +1,4 @@
-package misc.events;
+package airport.control.events;
 
 public class RunwayClearedForTakeOffEvent extends AirportEvent {
 }
