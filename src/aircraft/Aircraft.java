@@ -5,6 +5,10 @@ import aircraft.gear.Gear;
 import aircraft.wing.Wing;
 import com.google.common.eventbus.Subscribe;
 import misc.AutoIdGenerator;
+import misc.events.HoldShortEvent;
+import misc.events.RunwayClearedForTakeOffEvent;
+import misc.events.RunwayClearedToLandEvent;
+import misc.events.TaxiEvent;
 
 
 public class Aircraft {
@@ -26,19 +30,33 @@ public class Aircraft {
     }
 
     //TODO facades
+    private double currentFrequency;
+
     @Subscribe
-    public void taxi() {//TODO Event
+    public void taxi(TaxiEvent taxiEvent) {//TODO function
+        if (taxiEvent.getFrequency() == currentFrequency) {
+
+        }
     }
 
     @Subscribe
-    public void holdShort() {//TODO Event
+    public void holdShort(HoldShortEvent holdShortEvent) {//TODO function
+        if (holdShortEvent.getFrequency() == currentFrequency) {
+
+        }
     }
 
     @Subscribe
-    public void takeOff() {//TODO Event
+    public void takeOff(RunwayClearedForTakeOffEvent runwayClearedForTakeOffEvent) {//TODO function
+        if (runwayClearedForTakeOffEvent.getFrequency() == currentFrequency) {
+
+        }
     }
 
     @Subscribe
-    public void land() {//TODO Event
+    public void land(RunwayClearedToLandEvent runwayClearedToLandEvent) {//TODO function
+        if (runwayClearedToLandEvent.getFrequency() == currentFrequency) {
+
+        }
     }
 }
