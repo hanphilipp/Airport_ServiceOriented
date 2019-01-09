@@ -1,3 +1,5 @@
+import airport.Gate;
+
 public class Airport {
     private String name;
     private Gate[] gates;
