@@ -1,3 +1,5 @@
+package aircraft;
+
 import com.google.common.eventbus.Subscribe;
 import org.w3c.dom.events.Event;
 
