@@ -1,6 +1,15 @@
 public class Airport {
-    public static void main(String[] args){
-        System.out.println("Airport Dummy");
+    public Airport(String name) {
+        this.name = name;
+        gates=new Gate[10];
     }
-    //Dummy
+
+    public String getName() {
+        return name;
+    }
+
+    private String name;
+    private Gate[] gates;
+
+    //TODO Functions
 }
