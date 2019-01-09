@@ -1,3 +1,5 @@
+package airport;
+
 import airport.Gate;
 
 public class Airport {
