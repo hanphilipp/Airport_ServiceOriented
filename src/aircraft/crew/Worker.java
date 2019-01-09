@@ -1,4 +1,6 @@
 package aircraft.crew;
 
-public abstract class Worker {
+import misc.Person;
+
+public abstract class Worker extends Person {
 }

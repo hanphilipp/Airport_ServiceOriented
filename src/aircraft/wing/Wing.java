@@ -13,4 +13,5 @@ public class Wing {
         flaps = new Flap[2];
 
     }
+    //TODO functions
 }

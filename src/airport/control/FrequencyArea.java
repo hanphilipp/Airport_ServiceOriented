@@ -1,4 +1,4 @@
-package misc;
+package airport.control;
 
 public enum FrequencyArea {
     ApronControl, Tower;

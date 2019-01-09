@@ -3,12 +3,12 @@ package aircraft;
 import aircraft.body.Seat;
 import aircraft.gear.Gear;
 import aircraft.wing.Wing;
+import airport.control.events.HoldShortEvent;
+import airport.control.events.RunwayClearedForTakeOffEvent;
+import airport.control.events.RunwayClearedToLandEvent;
+import airport.control.events.TaxiEvent;
 import com.google.common.eventbus.Subscribe;
 import misc.AutoIdGenerator;
-import misc.events.HoldShortEvent;
-import misc.events.RunwayClearedForTakeOffEvent;
-import misc.events.RunwayClearedToLandEvent;
-import misc.events.TaxiEvent;
 
 
 public class Aircraft {
@@ -20,6 +20,8 @@ public class Aircraft {
     private Seat[] seats;
     private Wing[] wings;
     private Gear[] gears;
+    //TODO facades
+    private double currentFrequency;
 
     public Aircraft(String manufacturer) {
         this.manufacturer = manufacturer;
@@ -28,9 +30,6 @@ public class Aircraft {
         gears = new Gear[5];
         id = AutoIdGenerator.get();
     }
-
-    //TODO facades
-    private double currentFrequency;
 
     @Subscribe
     public void taxi(TaxiEvent taxiEvent) {//TODO function
