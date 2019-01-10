@@ -6,5 +6,4 @@ public class ApronControl {
     public ApronControl() {
         frequencyArea = FrequencyArea.ApronControl;
     }
-    //TODO functions including event calls
 }
