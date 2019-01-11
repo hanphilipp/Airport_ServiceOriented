@@ -13,4 +13,8 @@ public class Apron {
         checkpoints = new ArrayList<>();
         //TODO add correct checkpoints
     }
+
+    public ArrayList<Checkpoint> getCheckpoints() {
+        return checkpoints;
+    }
 }

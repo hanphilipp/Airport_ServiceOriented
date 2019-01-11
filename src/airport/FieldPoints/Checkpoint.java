@@ -3,7 +3,7 @@ package airport.FieldPoints;
 import aircraft.Aircraft;
 import airport.ControlArea;
 
-public class Checkpoint {
+public class Checkpoint implements IAircraftPosition{
     public Aircraft currentAircraft;
     private int id;
     private CheckpointName name;
@@ -24,5 +24,17 @@ public class Checkpoint {
 
     public ControlArea getControlArea() {
         return controlArea;
+    }
+
+    @Override
+    public void setAircraft(Aircraft a) {
+        currentAircraft=a;
+    }
+
+    @Override
+    public Aircraft removeAircraft() {
+        Aircraft temp=currentAircraft;
+        currentAircraft=null;
+        return temp;
     }
 }

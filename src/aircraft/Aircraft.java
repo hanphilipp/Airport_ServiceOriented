@@ -22,9 +22,11 @@ public class Aircraft {
     private Gear[] gears;
     //TODO facades
     private double currentFrequency;
+    private AircraftName name;
 
-    public Aircraft(String manufacturer) {
+    public Aircraft(String manufacturer, AircraftName name) {
         this.manufacturer = manufacturer;
+        this.name = name;
         seats = new Seat[568];
         wings = new Wing[2];
         gears = new Gear[5];

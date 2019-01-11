@@ -6,4 +6,5 @@ public enum CheckpointName {
     M1, M2, M3, M4, M5, M6,
     L1, L2, L3, L4, L5, L6,
     L08, L26, R08, R26,
+    AIR
 }
