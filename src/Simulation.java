@@ -42,21 +42,50 @@ public class Simulation {
      */
     public static void main(String[] args) {
         Simulation sim = new Simulation();
-        sim.startSim();
+        sim.runSim();
     }
 
     /**
      * actual internal routine
      */
-    private void startSim() {
+    private void runSim() {
         System.out.println("Starting simulation");
 
         System.out.println("Building Airport");
         Airport airport = new Airport("Simulation", WindDirection.random());
         System.out.println("Finished building Airport");
         airport.addAircrafts(genAircrafts(airport.getAllCheckpoints(), airport.getGatesList()));
+        moveAirplanes(airport);
+
 
         System.out.println("Ending simulation");
+    }
+
+    /**
+     *
+     */
+    private void moveAirplanes(Airport airport) {
+        System.out.println("Starting movement");
+        airport.land(AircraftName.F11);
+        airport.takeOff(AircraftName.F01);
+        airport.land(AircraftName.F12);
+        airport.takeOff(AircraftName.F02);
+        airport.land(AircraftName.F13);
+        airport.takeOff(AircraftName.F03);
+        airport.land(AircraftName.F14);
+        airport.takeOff(AircraftName.F04);
+        airport.land(AircraftName.F15);
+        airport.takeOff(AircraftName.F05);
+        airport.land(AircraftName.F16);
+        airport.takeOff(AircraftName.F06);
+        airport.land(AircraftName.F17);
+        airport.takeOff(AircraftName.F07);
+        airport.land(AircraftName.F18);
+        airport.takeOff(AircraftName.F08);
+        airport.land(AircraftName.F19);
+        airport.takeOff(AircraftName.F09);
+        airport.land(AircraftName.F20);
+        System.out.println("Finished moving");
     }
 
     private HashMap<Aircraft, IAircraftPosition> genAircrafts(ArrayList<Checkpoint> c, ArrayList<Gate> g) {
@@ -89,6 +118,7 @@ public class Simulation {
         a.put(new Aircraft("Simulator", AircraftName.F09), findGateByName(GateName.B04));
 //TODO Where is F10
 
+        System.out.println("Finished generation");
         return a;
     }
 

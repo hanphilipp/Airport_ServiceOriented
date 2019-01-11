@@ -1,6 +1,7 @@
 package airport;
 
 import aircraft.Aircraft;
+import aircraft.AircraftName;
 import airport.FieldPoints.Checkpoint;
 import airport.FieldPoints.IAircraftPosition;
 import airport.control.Tower;
@@ -8,6 +9,7 @@ import misc.WindDirection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Airport {
@@ -32,7 +34,12 @@ public class Airport {
     }
 
     public ArrayList<Gate> getGatesList() {
-        return new ArrayList<>().addAll(gates);
+        ArrayList<Gate> list = new ArrayList<Gate>();
+        for (Gate g : gates) {
+            list.add(g);
+        }
+
+        return list;
     }
 
     public String getName() {
@@ -49,9 +56,12 @@ public class Airport {
         addAircraft(a, tower.getAir());
     }
 
-    public void addAircrafts(Map<Aircraft, IAircraftPosition> m) {
-        for (Map.Entry<Aircraft, IAircraftPosition> e : m) {
-            addAircraft(e.getKey(), e.getValue());
+    public void addAircrafts(HashMap<Aircraft, IAircraftPosition> m) {
+        Iterator it = m.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            addAircraft((Aircraft) pair.getKey(), (IAircraftPosition) pair.getValue());
+            it.remove(); // avoids a ConcurrentModificationException
         }
     }
 
@@ -70,6 +80,31 @@ public class Airport {
         c.addAll(apron.getCheckpoints());
         c.add(tower.getAir());
         return c;
+    }
+
+    public void land(Aircraft a) {
+        //TODO implement
+    }
+
+    public void land(AircraftName name) {
+        land(getAircraftForName(name));
+    }
+
+    private Aircraft getAircraftForName(AircraftName name) {
+        for (Aircraft a : aircraftPositions.keySet()) {
+            if (a.getName() == name) {
+                return a;
+            }
+        }
+        throw new RuntimeException("No Aircraft found for Name: " + name);
+    }
+
+    public void takeOff(Aircraft a) {
+        //TODO implement
+    }
+
+    public void takeOff(AircraftName name) {
+        takeOff(getAircraftForName(name));
     }
 }
 

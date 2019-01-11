@@ -22,6 +22,19 @@ public class Aircraft {
     private Gear[] gears;
     //TODO facades
     private double currentFrequency;
+
+    public long getId() {
+        return id;
+    }
+
+    public double getCurrentFrequency() {
+        return currentFrequency;
+    }
+
+    public AircraftName getName() {
+        return name;
+    }
+
     private AircraftName name;
 
     public Aircraft(String manufacturer, AircraftName name) {
