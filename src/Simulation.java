@@ -1,9 +1,7 @@
 import aircraft.Aircraft;
 import aircraft.AircraftName;
 import airport.Airport;
-import airport.FieldPoints.Checkpoint;
-import airport.FieldPoints.CheckpointName;
-import airport.FieldPoints.IAircraftPosition;
+import airport.FieldPoints.*;
 import airport.Gate;
 import airport.GateName;
 import misc.WindDirection;
@@ -124,8 +122,17 @@ public class Simulation {
 
     private Checkpoint findCheckpointsByName(CheckpointName n) {
         for (Checkpoint c : checkpoints) {
-            if (c.getName() == n) {
+            if (c.getClass() == Checkpoint.class && c.getName() == n) {
                 return c;
+            }
+        }
+        throw new RuntimeException("Checkpoint with name: " + n + " not available!");
+    }
+
+    private Crossway findCheckpointsByName(CrosswayName n) {
+        for (Checkpoint c : checkpoints) {
+            if (c instanceof Crossway && ((Crossway) c).getCrosswayName() == n) {
+                return (Crossway) c;
             }
         }
         throw new RuntimeException("Checkpoint with name: " + n + " not available!");
@@ -133,7 +140,7 @@ public class Simulation {
 
     private Gate findGateByName(GateName n) {
         for (Gate c : gates) {
-            if (c.getName() == n) {
+            if (c instanceof Gate && c.getName() == n) {
                 return c;
             }
         }

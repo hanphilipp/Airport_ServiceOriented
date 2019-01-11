@@ -23,10 +23,24 @@ public class Airport {
     public Airport(String name, WindDirection currentWindDirection) {
         this.name = name;
         gates = new Gate[10];
+        generateGates();
         this.currentWindDirection = currentWindDirection;
         apron = new Apron();
         tower = new Tower();
         aircraftPositions = new HashMap<Aircraft, IAircraftPosition>();
+    }
+
+    private void generateGates() {
+        gates[0] = new Gate(GateName.A01);
+        gates[1] = new Gate(GateName.A02);
+        gates[2] = new Gate(GateName.A03);
+        gates[3] = new Gate(GateName.A04);
+        gates[4] = new Gate(GateName.A05);
+        gates[5] = new Gate(GateName.B01);
+        gates[6] = new Gate(GateName.B02);
+        gates[7] = new Gate(GateName.B03);
+        gates[8] = new Gate(GateName.B04);
+        gates[9] = new Gate(GateName.B05);
     }
 
     public Gate[] getGates() {

@@ -2,12 +2,13 @@ package airport.FieldPoints;
 
 import airport.ControlArea;
 
-public class Intersection extends Checkpoint {
+public class Crossway extends Checkpoint {
     private Checkpoint startCheckpoint;
     private Checkpoint endCheckpoint;
-    private IntersectionName name;
-    public Intersection(int id, IntersectionName name, ControlArea controlArea, Checkpoint startCheckpoint, Checkpoint endCheckpoint) {
-        super(id, null, controlArea);
+    private CrosswayName name;
+
+    public Crossway(CrosswayName name, ControlArea controlArea, Checkpoint startCheckpoint, Checkpoint endCheckpoint) {
+        super(null, controlArea);
         this.startCheckpoint = startCheckpoint;
         this.endCheckpoint = endCheckpoint;
     }
@@ -22,10 +23,10 @@ public class Intersection extends Checkpoint {
 
     @Override
     public CheckpointName getName() {
-        throw new RuntimeException("Cannot get CheckpointName for Intersection");
+        throw new RuntimeException("Cannot get CheckpointName for Crossway");
     }
 
-    public IntersectionName getIntersectionName() {
+    public CrosswayName getCrosswayName() {
         return name;
     }
 }

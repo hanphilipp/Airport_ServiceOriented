@@ -11,18 +11,25 @@ public class Tower {
 
 
     private ArrayList<Checkpoint> checkpoints;
-
-    public Checkpoint getAir() {
-        return air;
-    }
-
     private Checkpoint air;
 
     public Tower() {
         frequencyArea = FrequencyArea.Tower;
         checkpoints = new ArrayList<>();
-        air=new Checkpoint(0,CheckpointName.AIR, ControlArea.Tower);
-        //TODO add correct checkpoints
+        air = new Checkpoint(CheckpointName.AIR, ControlArea.Tower);
+        generateCheckpoints();
+    }
+
+    public Checkpoint getAir() {
+        return air;
+    }
+
+    private void generateCheckpoints() {
+        checkpoints.add(new Checkpoint(CheckpointName.L08, ControlArea.Tower));
+        checkpoints.add(new Checkpoint(CheckpointName.L26, ControlArea.Tower));
+        checkpoints.add(new Checkpoint(CheckpointName.R08, ControlArea.Tower));
+        checkpoints.add(new Checkpoint(CheckpointName.R26, ControlArea.Tower));
+
     }
 
     public FrequencyArea getFrequencyArea() {

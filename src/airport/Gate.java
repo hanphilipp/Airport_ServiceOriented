@@ -18,6 +18,10 @@ public class Gate implements IAircraftPosition {
         return aircraft;
     }
 
+    public Gate(GateName name) {
+        this.name = name;
+    }
+
     private GateName name;
     private Aircraft aircraft;
 
