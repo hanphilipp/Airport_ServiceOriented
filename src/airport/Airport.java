@@ -125,5 +125,27 @@ public class Airport {
     public void takeOff(AircraftName name) {
         takeOff(getAircraftForName(name));
     }
+
+    public void moveAircraft(Aircraft a, ArrayList<IAircraftPosition> positions) {
+        ArrayList<IAircraftPosition> towerPositions = new ArrayList<>();
+        ArrayList<IAircraftPosition> apronPositions = new ArrayList<>();
+        for (IAircraftPosition p : positions) {
+            if (tower.getCheckpoints().contains(p)) {
+                towerPositions.add(p);
+            }
+            if (apron.getCheckpoints().contains(p)) {
+                apronPositions.add(p);
+            }
+        }
+        if (positions.get(1) == towerPositions.get(1)) {
+            tower.moveAircraft(eventBus, a, towerPositions);
+            apron.moveAircraft(eventBus, a, apronPositions);
+        }
+        if (positions.get(1) == apronPositions.get(1)) {
+            tower.moveAircraft(eventBus, a, towerPositions);
+            apron.moveAircraft(eventBus, a, apronPositions);
+        }
+        aircraftPositions.replace(a, positions.get(positions.size()));
+    }
 }
 

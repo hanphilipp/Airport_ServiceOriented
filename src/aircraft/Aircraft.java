@@ -3,6 +3,10 @@ package aircraft;
 import aircraft.body.Seat;
 import aircraft.gear.Gear;
 import aircraft.wing.Wing;
+import airport.ControlArea;
+import airport.FieldPoints.Checkpoint;
+import airport.FieldPoints.CheckpointName;
+import airport.FieldPoints.IAircraftPosition;
 import airport.control.events.*;
 import com.google.common.eventbus.Subscribe;
 import misc.AutoIdGenerator;
@@ -115,7 +119,11 @@ public class Aircraft {
             writeEventLog(taxiEvent, "Received but not acted on");
         }
         if (eventStatus == 2) {
-
+            IAircraftPosition last = new Checkpoint(CheckpointName.L1, ControlArea.Apron);
+            for (IAircraftPosition p : taxiEvent.getPositions()) {
+                last.removeAircraft();
+                p.setAircraft(this);
+            }
             writeEventLog(taxiEvent, "Received and acted on");
         }
     }

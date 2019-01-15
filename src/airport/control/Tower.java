@@ -4,7 +4,9 @@ import aircraft.Aircraft;
 import airport.ControlArea;
 import airport.FieldPoints.Checkpoint;
 import airport.FieldPoints.CheckpointName;
+import airport.FieldPoints.IAircraftPosition;
 import airport.control.events.RunwayClearedForTakeOffEvent;
+import airport.control.events.TaxiEvent;
 import com.google.common.eventbus.EventBus;
 
 import java.util.ArrayList;
@@ -46,5 +48,11 @@ public class Tower {
 
     public void takeoff(EventBus bus, Aircraft aircraft) {//TODO not finished only dummy
         bus.post(new RunwayClearedForTakeOffEvent(FrequencyArea.getFrequencyForArea(frequencyArea), aircraft));
+    }
+
+    public void moveAircraft(EventBus bus, Aircraft a, ArrayList<IAircraftPosition> positions) {
+        //TODO implement
+        bus.post(new TaxiEvent(FrequencyArea.getFrequencyForArea(frequencyArea), a, positions));
+
     }
 }

@@ -1,10 +1,9 @@
 package airport;
 
-import airport.FieldPoints.Checkpoint;
-import airport.FieldPoints.CheckpointName;
-import airport.FieldPoints.Crossway;
-import airport.FieldPoints.CrosswayName;
+import aircraft.Aircraft;
+import airport.FieldPoints.*;
 import airport.control.ApronControl;
+import com.google.common.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -91,5 +90,9 @@ public class Apron {
 
     public ArrayList<Checkpoint> getCheckpoints() {
         return checkpoints;
+    }
+
+    public void moveAircraft(EventBus bus, Aircraft a, ArrayList<IAircraftPosition> positions) {
+        //TODO implement
     }
 }
