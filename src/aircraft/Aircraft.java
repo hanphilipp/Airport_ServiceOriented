@@ -54,6 +54,10 @@ public class Aircraft {
     }
 
     private void writeEventLog(AirportEvent event) {
+        writeEventLog(event, "");
+    }
+
+    private void writeEventLog(AirportEvent event, String message) {
         File logFile = new File("AircraftLogs/" + name + ".txt");
 
         ArrayList<String> lines = new ArrayList<String>();
@@ -76,7 +80,7 @@ public class Aircraft {
             }
         }
 
-        lines.add("\n" + new Date() + " : " + event);
+        lines.add("\n" + new Date() + " : " + event + " : " + message);
 
         Path file = Paths.get(logFile.getAbsolutePath());
         try {
@@ -88,31 +92,67 @@ public class Aircraft {
 
     }
 
+    /**
+     * checks how the event should be handeled
+     *
+     * @param event
+     * @return 0 for nothing, 1 for frequency only, 2 for both
+     */
+    private int checkEventStats(AirportEvent event) {
+        if (event.getFrequency() == currentFrequency) {
+            if (event.getAircraft().getId() == this.id) {
+                return 2;
+            }
+            return 1;
+        }
+        return 0;
+    }
+
     @Subscribe
     public void taxi(TaxiEvent taxiEvent) {//TODO function
-        if (taxiEvent.getFrequency() == currentFrequency) {
-            writeEventLog(taxiEvent);
+        int eventStatus = checkEventStats(taxiEvent);
+        if (eventStatus == 1) {
+            writeEventLog(taxiEvent, "Received but not acted on");
+        }
+        if (eventStatus == 2) {
+
+            writeEventLog(taxiEvent, "Received and acted on");
         }
     }
 
     @Subscribe
     public void holdShort(HoldShortEvent holdShortEvent) {//TODO function
-        if (holdShortEvent.getFrequency() == currentFrequency) {
-            writeEventLog(holdShortEvent);
+        int eventStatus = checkEventStats(holdShortEvent);
+        if (eventStatus == 1) {
+            writeEventLog(holdShortEvent, "Received but not acted on");
+        }
+        if (eventStatus == 2) {
+
+            writeEventLog(holdShortEvent, "Received and acted on");
         }
     }
 
     @Subscribe
     public void takeOff(RunwayClearedForTakeOffEvent runwayClearedForTakeOffEvent) {//TODO function
-        if (runwayClearedForTakeOffEvent.getFrequency() == currentFrequency) {
-            writeEventLog(runwayClearedForTakeOffEvent);
+        int eventStatus = checkEventStats(runwayClearedForTakeOffEvent);
+        if (eventStatus == 1) {
+            writeEventLog(runwayClearedForTakeOffEvent, "Received but not acted on");
+        }
+        if (eventStatus == 2) {
+
+            writeEventLog(runwayClearedForTakeOffEvent, "Received and acted on");
         }
     }
 
     @Subscribe
     public void land(RunwayClearedToLandEvent runwayClearedToLandEvent) {//TODO function
-        if (runwayClearedToLandEvent.getFrequency() == currentFrequency) {
-            writeEventLog(runwayClearedToLandEvent);
+        int eventStatus = checkEventStats(runwayClearedToLandEvent);
+        if (eventStatus == 1) {
+            writeEventLog(runwayClearedToLandEvent, "Received but not acted on");
+        }
+        if (eventStatus == 2) {
+
+            writeEventLog(runwayClearedToLandEvent, "Received and acted on");
         }
     }
 }

@@ -5,6 +5,7 @@ import aircraft.AircraftName;
 import airport.FieldPoints.Checkpoint;
 import airport.FieldPoints.IAircraftPosition;
 import airport.control.Tower;
+import com.google.common.eventbus.EventBus;
 import misc.WindDirection;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class Airport {
     private Apron apron;
     private Tower tower;
     private HashMap<Aircraft, IAircraftPosition> aircraftPositions;
+    private EventBus eventBus;
 
     public Airport(String name, WindDirection currentWindDirection) {
         this.name = name;
@@ -28,6 +30,7 @@ public class Airport {
         apron = new Apron();
         tower = new Tower();
         aircraftPositions = new HashMap<Aircraft, IAircraftPosition>();
+        eventBus = new EventBus();
     }
 
     private void generateGates() {
@@ -64,6 +67,7 @@ public class Airport {
     public void addAircraft(Aircraft a, IAircraftPosition c) {
         aircraftPositions.put(a, c);
         c.setAircraft(a);
+        eventBus.register(a);
     }
 
     public void addAircraft(Aircraft a) {
@@ -83,6 +87,7 @@ public class Airport {
         IAircraftPosition c = aircraftPositions.remove(a);
         if (c != null) {
             if (a == c.removeAircraft()) {
+                eventBus.unregister(a);
                 return true;
             }
         }
@@ -97,7 +102,7 @@ public class Airport {
     }
 
     public void land(Aircraft a) {
-        //TODO implement
+        tower.takeoff(eventBus, a);
     }
 
     public void land(AircraftName name) {

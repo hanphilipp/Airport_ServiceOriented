@@ -5,6 +5,12 @@ import airport.FieldPoints.IAircraftPosition;
 
 public class Gate implements IAircraftPosition {
     private boolean isOpen;
+    private GateName name;
+    private Aircraft aircraft;
+
+    public Gate(GateName name) {
+        this.name = name;
+    }
 
     public boolean isOpen() {
         return isOpen;
@@ -17,13 +23,6 @@ public class Gate implements IAircraftPosition {
     public Aircraft getAircraft() {
         return aircraft;
     }
-
-    public Gate(GateName name) {
-        this.name = name;
-    }
-
-    private GateName name;
-    private Aircraft aircraft;
 
     @Override
     public void setAircraft(Aircraft a) {
