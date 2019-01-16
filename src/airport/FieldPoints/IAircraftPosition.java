@@ -6,4 +6,6 @@ public interface IAircraftPosition {
     public void setAircraft(Aircraft a);
 
     public Aircraft removeAircraft();
+
+    public String getNameString();
 }

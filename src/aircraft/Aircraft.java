@@ -36,13 +36,14 @@ public class Aircraft {
     private double currentFrequency;
     private AircraftName name;
 
-    public Aircraft(String manufacturer, AircraftName name) {
+    public Aircraft(String manufacturer, AircraftName name, double currentFrequency) {
         this.manufacturer = manufacturer;
         this.name = name;
         seats = new Seat[568];
         wings = new Wing[2];
         gears = new Gear[5];
         id = AutoIdGenerator.get();
+        this.currentFrequency = currentFrequency;
     }
 
     public long getId() {
@@ -51,6 +52,10 @@ public class Aircraft {
 
     public double getCurrentFrequency() {
         return currentFrequency;
+    }
+
+    public void setCurrentFrequency(double currentFrequency) {
+        this.currentFrequency = currentFrequency;
     }
 
     public AircraftName getName() {
@@ -62,11 +67,11 @@ public class Aircraft {
     }
 
     private void writeEventLog(AirportEvent event, String message) {
-        File logFile = new File("AircraftLogs/" + name + ".txt");
+        File logFile = new File("out/AircraftLogs/" + name + ".txt");
 
         ArrayList<String> lines = new ArrayList<String>();
         if (!logFile.exists()) {
-            logFile.mkdirs();
+            logFile.getParentFile().mkdirs();
             try {
                 logFile.createNewFile();
             } catch (IOException e) {
@@ -84,11 +89,12 @@ public class Aircraft {
             }
         }
 
-        lines.add("\n" + new Date() + " : " + event + " : " + message);
+        lines.add(new Date() + " : " + event + " : " + message);
 
         Path file = Paths.get(logFile.getAbsolutePath());
         try {
             Files.write(file, lines, Charset.forName("UTF-8"));
+            // System.out.println("Log: " + file.toAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,6 +109,9 @@ public class Aircraft {
      * @return 0 for nothing, 1 for frequency only, 2 for both
      */
     private int checkEventStats(AirportEvent event) {
+        //System.out.print("Event Frequency: " + event.getFrequency());
+        //System.out.println(" | Aircraft frequency: " + currentFrequency);
+
         if (event.getFrequency() == currentFrequency) {
             if (event.getAircraft().getId() == this.id) {
                 return 2;
@@ -116,15 +125,20 @@ public class Aircraft {
     public void taxi(TaxiEvent taxiEvent) {//TODO function
         int eventStatus = checkEventStats(taxiEvent);
         if (eventStatus == 1) {
+            //System.out.println("Receiving message but not acting");
             writeEventLog(taxiEvent, "Received but not acted on");
-        }
-        if (eventStatus == 2) {
+        } else if (eventStatus == 2) {
+            //System.out.println(name + " acting on message " + taxiEvent);
             IAircraftPosition last = new Checkpoint(CheckpointName.L1, ControlArea.Apron);
             for (IAircraftPosition p : taxiEvent.getPositions()) {
                 last.removeAircraft();
                 p.setAircraft(this);
             }
             writeEventLog(taxiEvent, "Received and acted on");
+        } else if (eventStatus == 0) {
+            //do nothing because its acting on a different frequency
+        } else {
+            throw new RuntimeException("Unkown event status: " + eventStatus);
         }
     }
 
@@ -135,7 +149,11 @@ public class Aircraft {
             writeEventLog(holdShortEvent, "Received but not acted on");
         }
         if (eventStatus == 2) {
-
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             writeEventLog(holdShortEvent, "Received and acted on");
         }
     }
@@ -147,7 +165,7 @@ public class Aircraft {
             writeEventLog(runwayClearedForTakeOffEvent, "Received but not acted on");
         }
         if (eventStatus == 2) {
-
+            System.out.println(name + " taking off");
             writeEventLog(runwayClearedForTakeOffEvent, "Received and acted on");
         }
     }
@@ -159,8 +177,13 @@ public class Aircraft {
             writeEventLog(runwayClearedToLandEvent, "Received but not acted on");
         }
         if (eventStatus == 2) {
-
+            System.out.println(name + " landing");
             writeEventLog(runwayClearedToLandEvent, "Received and acted on");
         }
+    }
+
+    @Override
+    public String toString() {
+        return name.toString();
     }
 }

@@ -29,4 +29,9 @@ public class Crossway extends Checkpoint {
     public CrosswayName getCrosswayName() {
         return name;
     }
+
+    @Override
+    public String getNameString() {
+        return name.toString();
+    }
 }

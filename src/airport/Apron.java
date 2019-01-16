@@ -10,11 +10,14 @@ import java.util.ArrayList;
 public class Apron {
     private ApronControl control;
     private ArrayList<Checkpoint> checkpoints;
-
     public Apron() {
         control = new ApronControl();
         checkpoints = new ArrayList<>();
         generateCheckpoints();
+    }
+
+    public ApronControl getControl() {
+        return control;
     }
 
     private void generateCheckpoints() {

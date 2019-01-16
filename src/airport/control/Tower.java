@@ -51,8 +51,7 @@ public class Tower {
     }
 
     public void moveAircraft(EventBus bus, Aircraft a, ArrayList<IAircraftPosition> positions) {
-        //TODO implement
         bus.post(new TaxiEvent(FrequencyArea.getFrequencyForArea(frequencyArea), a, positions));
-
     }
+
 }

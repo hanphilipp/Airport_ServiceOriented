@@ -39,4 +39,9 @@ public class Checkpoint implements IAircraftPosition {
         currentAircraft = null;
         return temp;
     }
+
+    public String getNameString() {
+        return name.toString();
+    }
+
 }

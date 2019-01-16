@@ -4,6 +4,7 @@ import aircraft.Aircraft;
 import aircraft.AircraftName;
 import airport.FieldPoints.Checkpoint;
 import airport.FieldPoints.IAircraftPosition;
+import airport.control.FrequencyArea;
 import airport.control.Tower;
 import com.google.common.eventbus.EventBus;
 import misc.WindDirection;
@@ -102,7 +103,29 @@ public class Airport {
     }
 
     public void land(Aircraft a) {
-        tower.takeoff(eventBus, a);
+        ArrayList<IAircraftPosition> pos = new ArrayList<>();
+        pos.add(aircraftPositions.get(a));
+        pos.add(findLandingStrip());
+        pos.add(findGate());
+        moveAircraft(a, pos);
+    }
+
+    private Checkpoint findLandingStrip() {
+        for (Checkpoint c : tower.getCheckpoints()) {
+            if (!aircraftPositions.containsValue(c)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    private Gate findGate() {
+        for (Gate g : gates) {
+            if (!aircraftPositions.containsValue(g)) {
+                return g;
+            }
+        }
+        return null;
     }
 
     public void land(AircraftName name) {
@@ -119,7 +142,10 @@ public class Airport {
     }
 
     public void takeOff(Aircraft a) {
-        //TODO implement
+        ArrayList<IAircraftPosition> pos = new ArrayList<>();
+        pos.add(aircraftPositions.get(a));
+        pos.add(tower.getAir());
+        moveAircraft(a, pos);
     }
 
     public void takeOff(AircraftName name) {
@@ -137,15 +163,37 @@ public class Airport {
                 apronPositions.add(p);
             }
         }
-        if (positions.get(1) == towerPositions.get(1)) {
+        if (towerPositions.size() > 0 && positions.get(0) == towerPositions.get(0)) {
             tower.moveAircraft(eventBus, a, towerPositions);
+            a.setCurrentFrequency(FrequencyArea.getFrequencyForArea(FrequencyArea.ApronControl));
             apron.moveAircraft(eventBus, a, apronPositions);
         }
-        if (positions.get(1) == apronPositions.get(1)) {
+        if (apronPositions.size() > 0 && positions.get(0) == apronPositions.get(0)) {
             tower.moveAircraft(eventBus, a, towerPositions);
+            a.setCurrentFrequency(FrequencyArea.getFrequencyForArea(FrequencyArea.Tower));
             apron.moveAircraft(eventBus, a, apronPositions);
         }
-        aircraftPositions.replace(a, positions.get(positions.size()));
+        aircraftPositions.replace(a, positions.get(positions.size() - 1));
+    }
+
+    public double[] getFrequencies() {
+        double[] f = new double[2];
+        f[0] = FrequencyArea.getFrequencyForArea(tower.getFrequencyArea());
+        f[1] = FrequencyArea.getFrequencyForArea(apron.getControl().getFrequencyArea());
+        return f;
+    }
+
+    public void printAircraftPositions() {
+        Aircraft a;
+        IAircraftPosition p;
+        System.out.println("---------------------------------------------------------------");
+        for (Map.Entry e : aircraftPositions.entrySet()) {
+            a = (Aircraft) e.getKey();
+            p = (IAircraftPosition) e.getValue();
+            System.out.println(a.getName() + " : " + p.getNameString());
+        }
+        System.out.println("---------------------------------------------------------------");
+
     }
 }
 

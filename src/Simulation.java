@@ -52,8 +52,11 @@ public class Simulation {
         System.out.println("Building Airport");
         Airport airport = new Airport("Simulation", WindDirection.random());
         System.out.println("Finished building Airport");
-        airport.addAircrafts(genAircrafts(airport.getAllCheckpoints(), airport.getGatesList()));
+        double[] f = airport.getFrequencies();
+        airport.addAircrafts(genAircrafts(airport.getAllCheckpoints(), airport.getGatesList(), f));
+        airport.printAircraftPositions();
         moveAirplanes(airport);
+        airport.printAircraftPositions();
 
 
         System.out.println("Ending simulation");
@@ -86,34 +89,34 @@ public class Simulation {
         System.out.println("Finished moving");
     }
 
-    private HashMap<Aircraft, IAircraftPosition> genAircrafts(ArrayList<Checkpoint> c, ArrayList<Gate> g) {
+    private HashMap<Aircraft, IAircraftPosition> genAircrafts(ArrayList<Checkpoint> c, ArrayList<Gate> g, double[] frequencies) {
         checkpoints = c;
         gates = g;
         System.out.println("Generating Aircrafts and Mappings");
         HashMap<Aircraft, IAircraftPosition> a = new HashMap<>();
 
         //Flying Aircrafts
-        a.put(new Aircraft("Simulator", AircraftName.F11), findCheckpointsByName(CheckpointName.AIR));
-        a.put(new Aircraft("Simulator", AircraftName.F12), findCheckpointsByName(CheckpointName.AIR));
-        a.put(new Aircraft("Simulator", AircraftName.F13), findCheckpointsByName(CheckpointName.AIR));
-        a.put(new Aircraft("Simulator", AircraftName.F14), findCheckpointsByName(CheckpointName.AIR));
-        a.put(new Aircraft("Simulator", AircraftName.F15), findCheckpointsByName(CheckpointName.AIR));
-        a.put(new Aircraft("Simulator", AircraftName.F16), findCheckpointsByName(CheckpointName.AIR));
-        a.put(new Aircraft("Simulator", AircraftName.F17), findCheckpointsByName(CheckpointName.AIR));
-        a.put(new Aircraft("Simulator", AircraftName.F18), findCheckpointsByName(CheckpointName.AIR));
-        a.put(new Aircraft("Simulator", AircraftName.F19), findCheckpointsByName(CheckpointName.AIR));
-        a.put(new Aircraft("Simulator", AircraftName.F20), findCheckpointsByName(CheckpointName.AIR));
+        a.put(new Aircraft("Simulator", AircraftName.F11, frequencies[0]), findCheckpointsByName(CheckpointName.AIR));
+        a.put(new Aircraft("Simulator", AircraftName.F12, frequencies[0]), findCheckpointsByName(CheckpointName.AIR));
+        a.put(new Aircraft("Simulator", AircraftName.F13, frequencies[0]), findCheckpointsByName(CheckpointName.AIR));
+        a.put(new Aircraft("Simulator", AircraftName.F14, frequencies[0]), findCheckpointsByName(CheckpointName.AIR));
+        a.put(new Aircraft("Simulator", AircraftName.F15, frequencies[0]), findCheckpointsByName(CheckpointName.AIR));
+        a.put(new Aircraft("Simulator", AircraftName.F16, frequencies[0]), findCheckpointsByName(CheckpointName.AIR));
+        a.put(new Aircraft("Simulator", AircraftName.F17, frequencies[0]), findCheckpointsByName(CheckpointName.AIR));
+        a.put(new Aircraft("Simulator", AircraftName.F18, frequencies[0]), findCheckpointsByName(CheckpointName.AIR));
+        a.put(new Aircraft("Simulator", AircraftName.F19, frequencies[0]), findCheckpointsByName(CheckpointName.AIR));
+        a.put(new Aircraft("Simulator", AircraftName.F20, frequencies[0]), findCheckpointsByName(CheckpointName.AIR));
 
         //Grounded Aircrafts
-        a.put(new Aircraft("Simulator", AircraftName.F01), findCheckpointsByName(CheckpointName.O3));
-        a.put(new Aircraft("Simulator", AircraftName.F02), findCheckpointsByName(CheckpointName.N3));
-        a.put(new Aircraft("Simulator", AircraftName.F03), findGateByName(GateName.A01));
-        a.put(new Aircraft("Simulator", AircraftName.F04), findGateByName(GateName.A02));
-        a.put(new Aircraft("Simulator", AircraftName.F05), findGateByName(GateName.A04));
-        a.put(new Aircraft("Simulator", AircraftName.F06), findGateByName(GateName.A05));
-        a.put(new Aircraft("Simulator", AircraftName.F07), findGateByName(GateName.B01));
-        a.put(new Aircraft("Simulator", AircraftName.F08), findGateByName(GateName.B03));
-        a.put(new Aircraft("Simulator", AircraftName.F09), findGateByName(GateName.B04));
+        a.put(new Aircraft("Simulator", AircraftName.F01, frequencies[1]), findCheckpointsByName(CheckpointName.O3));
+        a.put(new Aircraft("Simulator", AircraftName.F02, frequencies[1]), findCheckpointsByName(CheckpointName.N3));
+        a.put(new Aircraft("Simulator", AircraftName.F03, frequencies[1]), findGateByName(GateName.A01));
+        a.put(new Aircraft("Simulator", AircraftName.F04, frequencies[1]), findGateByName(GateName.A02));
+        a.put(new Aircraft("Simulator", AircraftName.F05, frequencies[1]), findGateByName(GateName.A04));
+        a.put(new Aircraft("Simulator", AircraftName.F06, frequencies[1]), findGateByName(GateName.A05));
+        a.put(new Aircraft("Simulator", AircraftName.F07, frequencies[1]), findGateByName(GateName.B01));
+        a.put(new Aircraft("Simulator", AircraftName.F08, frequencies[1]), findGateByName(GateName.B03));
+        a.put(new Aircraft("Simulator", AircraftName.F09, frequencies[1]), findGateByName(GateName.B04));
 //TODO Where is F10
 
         System.out.println("Finished generation");
@@ -146,4 +149,5 @@ public class Simulation {
         }
         throw new RuntimeException("Gate with name: " + n + " not available!");
     }
+
 }

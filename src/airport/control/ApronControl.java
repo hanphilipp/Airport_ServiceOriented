@@ -6,4 +6,8 @@ public class ApronControl {
     public ApronControl() {
         frequencyArea = FrequencyArea.ApronControl;
     }
+
+    public FrequencyArea getFrequencyArea() {
+        return frequencyArea;
+    }
 }

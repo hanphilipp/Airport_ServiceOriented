@@ -36,5 +36,10 @@ public class Gate implements IAircraftPosition {
         return temp;
     }
 
+    @Override
+    public String getNameString() {
+        return name.toString();
+    }
+
     //TODO Functions
 }
