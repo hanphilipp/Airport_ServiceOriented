@@ -17,4 +17,15 @@ public class TaxiEvent extends AirportEvent {
     public ArrayList<IAircraftPosition> getPositions() {
         return positions;
     }
+
+    public String toString() {
+        String s = this.getClass() + " (" + frequency + ", " + aircraft + ")\n";
+        for (IAircraftPosition p : positions) {
+            s += p.getNameString();
+            if (positions.get(positions.size() - 1) != p) {
+                s += "->";
+            }
+        }
+        return s;
+    }
 }

@@ -111,11 +111,11 @@ public class Aircraft {
     private int checkEventStats(AirportEvent event) {
         //System.out.print("Event Frequency: " + event.getFrequency());
         //System.out.println(" | Aircraft frequency: " + currentFrequency);
-
+        if (event.getAircraft().getId() == this.id) {
+            return 2;
+        }
         if (event.getFrequency() == currentFrequency) {
-            if (event.getAircraft().getId() == this.id) {
-                return 2;
-            }
+
             return 1;
         }
         return 0;

@@ -6,6 +6,8 @@ import airport.FieldPoints.Checkpoint;
 import airport.FieldPoints.IAircraftPosition;
 import airport.control.FrequencyArea;
 import airport.control.Tower;
+import airport.control.events.RunwayClearedForTakeOffEvent;
+import airport.control.events.RunwayClearedToLandEvent;
 import com.google.common.eventbus.EventBus;
 import misc.WindDirection;
 
@@ -106,6 +108,9 @@ public class Airport {
         ArrayList<IAircraftPosition> pos = new ArrayList<>();
         pos.add(aircraftPositions.get(a));
         pos.add(findLandingStrip());
+        eventBus.post(new RunwayClearedToLandEvent(FrequencyArea.getFrequencyForArea(tower.getFrequencyArea()), a));
+        moveAircraft(a, pos);
+        pos.remove(0);
         pos.add(findGate());
         moveAircraft(a, pos);
     }
@@ -144,8 +149,21 @@ public class Airport {
     public void takeOff(Aircraft a) {
         ArrayList<IAircraftPosition> pos = new ArrayList<>();
         pos.add(aircraftPositions.get(a));
+        pos.add(findRunwayForTakeOff());
+        moveAircraft(a, pos);
+        eventBus.post(new RunwayClearedForTakeOffEvent(FrequencyArea.getFrequencyForArea(tower.getFrequencyArea()), a));
+        pos.remove(0);
         pos.add(tower.getAir());
         moveAircraft(a, pos);
+    }
+
+    private Checkpoint findRunwayForTakeOff() {
+        for (Checkpoint c : tower.getCheckpoints()) {
+            if (!aircraftPositions.containsValue(c)) {
+                return c;
+            }
+        }
+        return null;
     }
 
     public void takeOff(AircraftName name) {
